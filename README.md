@@ -34,3 +34,7 @@
 
 - [ ] 单个数据库分表
 - [ ] 多个数据库分库分表
+
+## License
+
+[MIT](./LICENSE) Copyright (c) 2024 shiloh
