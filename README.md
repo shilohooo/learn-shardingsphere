@@ -35,6 +35,12 @@
 - [ ] 单个数据库分表
 - [ ] 多个数据库分库分表
 
+## 贡献者
+
+|             [shiloh](https://github.com/shilohooo)              |
+|:---------------------------------------------------------------:|
+| ![shiloh](https://avatars.githubusercontent.com/u/46670399?v=4) |
+
 ## License
 
 [MIT](./LICENSE) Copyright (c) 2024 shiloh
