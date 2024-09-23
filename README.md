@@ -27,6 +27,10 @@
 
 ### MySQL
 
-- [单个数据库表分片示例](./mysql-single-db-sharding)
+- [x] [单个数据库表分表](./mysql-single-db-sharding)
+- [ ] 多个数据库分库分表
 
 ### MSSQL Server
+
+- [ ] 单个数据库分表
+- [ ] 多个数据库分库分表
