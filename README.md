@@ -9,6 +9,8 @@
 |    OpenJDK    | 1.8.0_402 | Azul Zulu |
 | Apache Maven  |   3.6.3   |  项目构建工具   |
 | Intellij IDEA | 2024.2.2  |    IDE    |
+|    Docker     |  26.0.0   |   容器管理    |
+|      Git      |  2.45.2   |   版本控制    |
 
 ## 技术栈
 
