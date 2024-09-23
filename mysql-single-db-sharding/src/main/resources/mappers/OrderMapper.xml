@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    description: 订单实体 Mapper
+    author: shiloh
+    date: 2024/9/20 16:23
+-->
+<mapper namespace="org.shiloh.mapper.OrderMapper">
+    <select id="selectAllByOrderTime" resultType="order" parameterType="date">
+        select *
+        from t_order
+        where order_time between #{beginOrderTime} and #{endOrderTime}
+    </select>
+</mapper>

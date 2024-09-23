@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    description: 用户信息 Mapper
+    author: shiloh
+    date: 2024/9/18 16:56
+-->
+<mapper namespace="org.shiloh.mapper.UserMapper">
+    <!--region CUD-->
+    
+    <!--    新增优用户信息-->
+    <insert id="insert" parameterType="user">
+        insert into t_user(id, name, age, email, dept_id)
+        <!--
+        void insert(@Param("user") User user);
+        实际开发建议统一加上 @Param 注解，避免多个参数命名冲突，增强可读性
+        -->
+        values (#{user.id}, #{user.name}, #{user.age}, #{user.email}, #{user.deptId})
+
+        <!-- void insert(User user); -->
+        <!-- values (#{id}, #{name}, #{age}, #{email}, #{deptId}) -->
+    </insert>
+
+    <!--    修改用户信息-->
+    <update id="update">
+        update t_user
+        <!-- 字段不为 null 的才更新，如果是字符串类型，则还需要判断不为空字符串 -->
+        <set>
+            <if test="user.name != null and user.name != ''">
+                name = #{user.name},
+            </if>
+            <if test="user.age != null">
+                age = #{user.age},
+            </if>
+            <if test="user.email != null and user.name != ''">
+                email = #{user.email}
+            </if>
+        </set>
+        where id = #{user.id}
+        and dept_id = #{user.deptId}
+    </update>
+
+    <!--    删除用户信息-->
+    <delete id="delete">
+        delete
+        from t_user
+        where id = #{id}
+          and dept_id = #{deptId}
+    </delete>
+
+    <!--endregion-->
+
+    <!--region R-->
+
+    <!--    根据部门 ID 查询用户列表-->
+    <select id="selectAllByDeptId" resultType="user" parameterType="long">
+        select *
+        from t_user
+        where dept_id = #{deptId}
+    </select>
+
+    <!--    根据 ID 和 部门 ID 查询用户信息-->
+    <select id="selectByIdAndDeptId" resultType="org.shiloh.entity.User" parameterType="long">
+        select *
+        from t_user
+        where id = #{id}
+          and dept_id = #{deptId}
+    </select>
+
+    <!--endregion-->
+</mapper>

@@ -1,0 +1,123 @@
+# ShardingSphere JDBC 配置
+# 语法说明
+# !! 表示实例化该类
+# ! 表示自定义别名
+# - 表示可以包含一个到多个
+# [] 表示数字，可以与 - 符号相互替换使用
+
+# JDBC 逻辑库名称。在集群模式中，使用该参数来联通 ShardingSphere-JDBC 与 ShardingSphere-Proxy。
+# 默认值：logic_db
+#database-name: my_logic_db
+
+# 模式配置，不配置则默认单机模式
+#mode:
+# 运行模式类型。可选配置：Standalone（单机）、Cluster（集群）
+#  type: Standalone
+
+# 数据源配置
+# ShardingSphere-JDBC 支持所有的数据库 JDBC 驱动和连接池。
+dataSources: # 数据源配置，可配置多个 <data-source-name>
+  main: # 数据源名称
+    # 数据源完整类名
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    # 数据库驱动类名，以数据库连接池自身配置为准
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # 数据库 URL 连接，以数据库连接池自身配置为准
+    jdbcUrl: jdbc:mysql://127.0.0.1:13306/sharding_jdbc_single_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    # 数据库用户名，以数据库连接池自身配置为准
+    username: root
+    # 数据库密码，以数据库连接池自身配置为准
+    password: 123456
+    # ... 数据库连接池的其它属性
+
+# 规则配置
+rules:
+  # 分片表查询规则
+  - !SHARDING
+    # 数据分片规则配置
+    tables:
+      # 逻辑表名称
+      # 按指定的单个字段分片（比如：用户ID、订单 ID）
+      t_user:
+        # 由数据源名 + 表名组成（参考 Inline 语法规则），对应的表（t_user_0、t_user_1）需要在数据库提前创建好
+        actualDataNodes: main.t_user_${0..1}
+        # 分表策略，同分库策略
+        tableStrategy:
+          standard:
+            # 分片列名称
+            shardingColumn: dept_id
+            # 分片算法名称
+            shardingAlgorithmName: t_user_inline
+        # 分布式序列策略
+        keyGenerateStrategy:
+          # 自增列名称，缺省表示不使用自增主键生成器
+          column: id
+          # 分布式序列算法名称
+          keyGeneratorName: snowflake
+      # 按指定的日期字段按月分片（比如下单时间、创建时间）
+      t_order:
+        actualDataNodes: main.t_order_${202408..202409}
+        tableStrategy:
+          standard:
+            shardingColumn: order_time
+            shardingAlgorithmName: t_order_interval
+        # 分布式序列策略
+        keyGenerateStrategy:
+          # 自增列名称，缺省表示不使用自增主键生成器
+          column: id
+          # 分布式序列算法名称
+          keyGeneratorName: snowflake
+
+    # 分片算法配置
+    shardingAlgorithms:
+      # 分片算法名称
+      # 标准算法 - 行表达式分片算法，提供对 SQL 语句中的 = 和 IN 的分片操作支持，只支持单分片键。
+      t_user_inline:
+        # 分片算法类型
+        type: INLINE
+        # 分片算法属性配置
+        props:
+          # 分片算法表达式，根据部门 ID 模 2 得到分片表后缀
+          # 比如 where dept_id = 2, 则使用部门 ID 2 去模 2，得到分片表后缀 0，对应分片表名称为：t_user_0
+          # 实际查询就为 select * from t_user_0 where dept_id = 2;
+          algorithm-expression: t_user_${dept_id % 2}
+      # 标准算法 - 时间范围分片算法
+      # 此算法主动忽视了 datetime-pattern 的时区信息。这意味着当 datetime-lower, datetime-upper 和传入的分片键含有时区信息时，
+      # 不会因为时区不一致而发生时区转换。 当传入的分片键为 java.time.Instant 时存在特例处理，
+      # 其会携带上系统的时区信息后转化为 datetime-pattern 的字符串格式，再进行下一步分片。
+      t_order_interval:
+        type: INTERVAL
+        props:
+          # 分片键的时间戳格式，必须遵循 Java DateTimeFormatter 的格式。例如：yyyy-MM-dd HH:mm:ss，yyyy-MM-dd 或 HH:mm:ss 等。
+          datetime-pattern: yyyyMM
+          # 时间分片下界值，格式与 datetime-pattern 定义的时间戳格式一致，必须指定，否则查询报错
+          datetime-lower: 202001
+          # 分片键时间间隔单位，必须遵循 Java ChronoUnit 的枚举值。
+          # 按天 = DAYS，按月 = MONTHS
+          datetime-interval-unit: MONTHS
+          # 分片数据源或真实表的后缀格式，必须遵循 Java DateTimeFormatter 的格式，必须和 datetime-interval-unit 保持一致。
+          # datetime-interval-unit 为 DAYS，表示按天，则后缀应以 dd 结尾
+          # datetime-interval-unit 为 MONTHS，表示按月，则后缀应以 MM 结尾
+          sharding-suffix-pattern: yyyyMM
+
+    # 分布式序列算法配置
+    keyGenerators:
+      # 分布式序列算法名称
+      snowflake:
+        # 分布式序列算法类型
+        type: SNOWFLAKE
+        # 分布式序列算法属性配置
+        props:
+          worker-id: 1
+          datacenter-id: 1
+  # 未分片的表查询规则
+  # see https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/shardingsphere-jdbc/yaml-config/rules/single/
+  - !SINGLE
+    tables:
+      # 指定有哪些表是未分片的
+      - main.*
+
+props:
+  # SQL 打印开关
+  sql-show: true
+
