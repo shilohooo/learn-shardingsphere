@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.shiloh</groupId>
+    <artifactId>learn-shardingsphere</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>learn-shardingsphere</name>
+    <description>Apache ShardingSphere 分库分表学习</description>
+    <packaging>pom</packaging>
+
+    <!--region sub modules-->
+
+    <modules>
+        <module>mysql-single-db-sharding</module>
+    </modules>
+
+    <!--endregion-->
+
+    <!--region project properties-->
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!--region dependencies version-->
+
+        <spring-boot.version>2.6.13</spring-boot.version>
+        <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
+        <shardingsphere.jdbc.version>5.5.0</shardingsphere.jdbc.version>
+        <org.snakeyaml.verison>1.33</org.snakeyaml.verison>
+        <idgenerator.version>1.0.6</idgenerator.version>
+
+        <!--endregion-->
+    </properties>
+
+    <!--endregion-->
+
+    <!--region dependencies management-->
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc</artifactId>
+                <version>${shardingsphere.jdbc.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.github.yitter/yitter-idgenerator -->
+            <dependency>
+                <groupId>com.github.yitter</groupId>
+                <artifactId>yitter-idgenerator</artifactId>
+                <version>${idgenerator.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!--endregion-->
+
+    <!--region global dependencies import-->
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis-spring-boot-starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${org.snakeyaml.verison}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.yitter</groupId>
+            <artifactId>yitter-idgenerator</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!--endregion-->
+
+    <!--region mirrors-->
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://maven.aliyun.com/repository/central</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>public</id>
+            <url>https://maven.aliyun.com/repository/central</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!--endregion-->
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>org.shiloh.App</mainClass>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
