@@ -27,4 +27,9 @@ public class Order extends BaseEntity {
      * 下单时间
      */
     private Date orderTime;
+
+    /**
+     * 备注
+     */
+    private String remark;
 }

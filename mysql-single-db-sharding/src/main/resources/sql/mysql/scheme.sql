@@ -28,23 +28,26 @@ create table t_user_1
 create table t_order
 (
     id         bigint primary key comment '主键',
-    order_no   varchar(50) not null comment '订单号',
-    order_time datetime    not null comment '下单时间'
+    order_no   varchar(50)  not null comment '订单号',
+    order_time datetime     not null comment '下单时间',
+    remark     varchar(255) null comment '备注'
 ) comment '订单信息表';
 
 # 按月分片
 create table t_order_202408
 (
     id         bigint primary key comment '主键',
-    order_no   varchar(50) not null comment '订单号',
-    order_time datetime    not null comment '下单时间'
+    order_no   varchar(50)  not null comment '订单号',
+    order_time datetime     not null comment '下单时间',
+    remark     varchar(255) null comment '备注'
 ) comment '订单信息表20240801';
 
 create table t_order_202409
 (
     id         bigint primary key comment '主键',
-    order_no   varchar(50) not null comment '订单号',
-    order_time datetime    not null comment '下单时间'
+    order_no   varchar(50)  not null comment '订单号',
+    order_time datetime     not null comment '下单时间',
+    remark     varchar(255) null comment '备注'
 ) comment '订单信息表20240901';
 
 # 不参与分片的表
