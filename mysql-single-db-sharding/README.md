@@ -6,12 +6,9 @@
 
 ## 内容概览
 
-- [ ] 单表分片配置
-    - [x] 按单个普通字段分片
-    - [x] 按单个日期字段按月分片
-    - [ ] 按多个字段分片
-- [x] 不分片的表如何配置查询规则
-- [ ] 单表分片 CRUD 单元测试
-    - [x] [按单个普通字段分片](./src/test/java/org/shiloh/single/SingleTableNormalColumnShardingTests.java)
-    - [x] [按单个日期字段按月分片](./src/test/java/org/shiloh/single/SingleTableDateColumnShardingTests.java)
-    - [ ] 按多个字段分片
+| 示例名称        |  逻辑表名称  |                          配置                           |                                               单元测试                                                |     备注      |
+|:------------|:-------:|:-----------------------------------------------------:|:-------------------------------------------------------------------------------------------------:|:-----------:|
+| 单表不分片       | t_book  | [:white_check_mark:](./src/main/resources/config.yml) |           [:white_check_mark:](./src/test/java/org/shiloh/single/NoShardingTests.java)            |             |
+| 按单个普通字段分片   | t_user  | [:white_check_mark:](./src/main/resources/config.yml) | [:white_check_mark:](./src/test/java/org/shiloh/single/SingleTableNormalColumnShardingTests.java) | dept_id % 2 |
+| 按单个日期字段按月分片 | t_order | [:white_check_mark:](./src/main/resources/config.yml) |  [:white_check_mark:](./src/test/java/org/shiloh/single/SingleTableDateColumnShardingTests.java)  |   yyyyMM    |
+| 按多个字段分片     |         |                 :black_square_button:                 |                                       :black_square_button:                                       |             |
