@@ -1,11 +1,16 @@
-
-
-#下面这些内容是为了让MyBatis映射
-#指定Mybatis的Mapper文件
+# 下面这些内容是为了让MyBatis映射
+# 指定Mybatis的Mapper文件
 mybatis:
   mapper-locations: classpath:mappers/*xml
-  #指定Mybatis的实体目录
+  # 指定Mybatis的实体目录
   type-aliases-package: org.shiloh.entity
+  configuration:
+    # 下划线与小写开头的驼峰命名映射
+    # mybatis 为实体字段创建了一个 key = 字段名称大写，value = 字段名称的 map
+    # 在进行查询结果映射时，当 map-underscore-to-camel-case 为 true，mybatis 会将数据库表字段名称中的下划线去掉，然后转为大写
+    # 最后到 map 中取到数据库表字段对应的实体字段，再调用该字段 SET 方法设置查询结果
+    # see: org.apache.ibatis.executor.resultset.DefaultResultSetHandler.createAutomaticMappings
+    map-underscore-to-camel-case: true
 # 应用服务 WEB 访问端口
 server:
   port: 8080

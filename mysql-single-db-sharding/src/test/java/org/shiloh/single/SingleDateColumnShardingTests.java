@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * 单表分片测试
+ * 单元测试：单表单个日期字段按月分片
  *
  * @author shiloh
  * @date 2024/9/20 16:01
  */
 @SpringBootTest
-class SingleTableDateColumnShardingTests {
+class SingleDateColumnShardingTests {
     @Autowired
     private OrderMapper orderMapper;
 

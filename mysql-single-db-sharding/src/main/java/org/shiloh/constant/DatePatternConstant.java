@@ -14,4 +14,9 @@ public final class DatePatternConstant {
      * 标准日期时间格式
      */
     public static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * 年-月格式
+     */
+    public static final String YEAR_MONTH_WITHOUT_DASH = "yyyyMM";
 }

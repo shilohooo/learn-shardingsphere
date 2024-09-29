@@ -10,13 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 /**
- * 单表分片测试
+ * 单元测试：单表单个普通字段分片
  *
  * @author shiloh
  * @date 2024/9/20 16:01
  */
 @SpringBootTest
-class SingleTableNormalColumnShardingTests {
+class SingleNormalColumnShardingTests {
     @Autowired
     private UserMapper userMapper;
 

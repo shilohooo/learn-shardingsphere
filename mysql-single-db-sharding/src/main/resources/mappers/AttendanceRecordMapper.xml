@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    description: 打卡记录 Mapper
+    author: shiloh
+    date: 2024/9/29 14:37
+-->
+<mapper namespace="org.shiloh.mapper.AttendanceRecordMapper">
+    <select id="selectAll" resultType="org.shiloh.entity.AttendanceRecord">
+        select *
+        from t_attendance_record
+        where dept_id = #{deptId}
+          and clock_in_time between #{clockInTimeStart} and #{clockInTimeEnd}
+    </select>
+</mapper>

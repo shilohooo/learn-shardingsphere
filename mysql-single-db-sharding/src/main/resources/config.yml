@@ -39,7 +39,7 @@ rules:
       # 逻辑表名称
       # 按指定的单个字段分片（比如：用户ID、订单 ID）
       t_user:
-        # 由数据源名 + 表名组成（参考 Inline 语法规则），对应的表（t_user_0、t_user_1）需要在数据库提前创建好
+        # 实际的数据节点：由数据源名 + 表名组成（参考 Inline 语法规则），对应的表（t_user_0、t_user_1）需要在数据库提前创建好
         actualDataNodes: main.t_user_${0..1}
         # 分表策略，同分库策略
         tableStrategy:
@@ -67,6 +67,14 @@ rules:
           column: id
           # 分布式序列算法名称
           keyGeneratorName: snowflake
+      # 按照多个字段分片（部门 ID 加打卡日期）
+      t_attendance_record:
+        # 实际的数据节点
+        # TODO: 通过 yaml 配置只能写死部门 ID，不够灵活，后续改为 Java API 配置
+        actualDataNodes: main.t_attendance_record_1_${202408..202409}
+        tableStrategy:
+          hint:
+            shardingAlgorithmName: t_attendance_record_hint
 
     # 分片算法配置
     shardingAlgorithms:
@@ -99,7 +107,16 @@ rules:
           # datetime-interval-unit 为 DAYS，表示按天，则后缀应以 dd 结尾
           # datetime-interval-unit 为 MONTHS，表示按月，则后缀应以 MM 结尾
           sharding-suffix-pattern: yyyyMM
-
+      # 自定义 Hint 分片算法，无需指定分片字段
+      t_attendance_record_hint:
+        # 算法类型
+        type: CLASS_BASED
+        props:
+          # 分片策略类型，支持 STANDARD、COMPLEX 或 HINT（不区分大小写）
+          strategy: HINT
+          # 自定义分片算法全限定类名
+          algorithmClassName: org.shiloh.sharding.algorithm.AttendanceHintShardingAlgorithm
+    
     # 分布式序列算法配置
     keyGenerators:
       # 分布式序列算法名称
