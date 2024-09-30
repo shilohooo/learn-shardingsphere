@@ -56,7 +56,7 @@ create table t_attendance_record
 (
     id            bigint primary key comment '主键',
     user_id       bigint       not null comment '用户id',
-    user_name     varchar(50)  not null comment '用户姓名',
+    username      varchar(50)  not null comment '用户姓名',
     dept_id       bigint       not null comment '部门id',
     clock_in_time datetime     not null comment '打卡时间',
     remark        varchar(255) null comment '备注'
@@ -66,7 +66,7 @@ create table t_attendance_record_1_202408
 (
     id            bigint primary key comment '主键',
     user_id       bigint       not null comment '用户id',
-    user_name     varchar(50)  not null comment '用户姓名',
+    username      varchar(50)  not null comment '用户姓名',
     dept_id       bigint       not null comment '部门id',
     clock_in_time datetime     not null comment '打卡时间',
     remark        varchar(255) null comment '备注'
@@ -76,7 +76,7 @@ create table t_attendance_record_1_202409
 (
     id            bigint primary key comment '主键',
     user_id       bigint       not null comment '用户id',
-    user_name     varchar(50)  not null comment '用户姓名',
+    username      varchar(50)  not null comment '用户姓名',
     dept_id       bigint       not null comment '部门id',
     clock_in_time datetime     not null comment '打卡时间',
     remark        varchar(255) null comment '备注'

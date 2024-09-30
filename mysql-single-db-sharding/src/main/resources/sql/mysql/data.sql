@@ -10,9 +10,9 @@ insert into t_order_202408(id, order_no, order_time) value (1, '123', '2024-08-0
 insert into t_order_202409(id, order_no, order_time) value (1, '123', '2024-09-05 15:30:00');
 
 # 按多个字段分片（部门 ID + 打卡时间（按月））
-INSERT INTO sharding_jdbc_single_db.t_attendance_record_1_202408 (id, user_id, user_name, dept_id, clock_in_time, remark)
+INSERT INTO sharding_jdbc_single_db.t_attendance_record_1_202408 (id, user_id, username, dept_id, clock_in_time, remark)
 VALUES (592911230136666, 592911230136389, 'test2', 1, '2024-08-29 10:46:04', null);
-INSERT INTO sharding_jdbc_single_db.t_attendance_record_1_202409 (id, user_id, user_name, dept_id, clock_in_time, remark)
+INSERT INTO sharding_jdbc_single_db.t_attendance_record_1_202409 (id, user_id, username, dept_id, clock_in_time, remark)
 VALUES (592911230136667, 592911230136389, 'test2', 1, '2024-09-29 10:46:41', null);
 
 # 不参与分片的表
