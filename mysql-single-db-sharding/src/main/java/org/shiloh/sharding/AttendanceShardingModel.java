@@ -2,7 +2,7 @@ package org.shiloh.sharding;
 
 import lombok.*;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.shiloh.constant.DatePatternConstant;
+import org.shiloh.common.constant.DatePatternConstant;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;

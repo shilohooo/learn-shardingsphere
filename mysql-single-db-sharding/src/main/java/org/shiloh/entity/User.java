@@ -14,6 +14,11 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true)
 public class User extends BaseEntity {
+    /**
+     * 分片列名称
+     */
+    public static final String SHARDING_COLUMN = "dept_id";
+    
     private static final long serialVersionUID = -4449425796893700697L;
 
     /**

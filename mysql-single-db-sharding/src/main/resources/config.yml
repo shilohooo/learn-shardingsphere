@@ -17,7 +17,7 @@
 # 数据源配置
 # ShardingSphere-JDBC 支持所有的数据库 JDBC 驱动和连接池。
 dataSources: # 数据源配置，可配置多个 <data-source-name>
-  main: # 数据源名称
+  master: # 数据源名称
     # 数据源完整类名
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     # 数据库驱动类名，以数据库连接池自身配置为准
@@ -40,7 +40,7 @@ rules:
       # 按指定的单个字段分片（比如：用户ID、订单 ID）
       t_user:
         # 实际的数据节点：由数据源名 + 表名组成（参考 Inline 语法规则），对应的表（t_user_0、t_user_1）需要在数据库提前创建好
-        actualDataNodes: main.t_user_${0..1}
+        actualDataNodes: master.t_user_${0..1}
         # 分表策略，同分库策略
         tableStrategy:
           standard:
@@ -56,7 +56,7 @@ rules:
           keyGeneratorName: snowflake
       # 按指定的日期字段按月分片（比如下单时间、创建时间）
       t_order:
-        actualDataNodes: main.t_order_${202408..202409}
+        actualDataNodes: master.t_order_${202408..202409}
         tableStrategy:
           standard:
             shardingColumn: order_time
@@ -71,7 +71,7 @@ rules:
       t_attendance_record:
         # 实际的数据节点
         # TODO: 通过 yaml 配置只能写死部门 ID，不够灵活，后续改为 Java API 配置
-        actualDataNodes: main.t_attendance_record_1_${202408..202409}
+        actualDataNodes: master.t_attendance_record_1_${202408..202409}
         tableStrategy:
           hint:
             shardingAlgorithmName: t_attendance_record_hint
@@ -132,7 +132,7 @@ rules:
   - !SINGLE
     tables:
       # 指定有哪些表是未分片的
-      - main.*
+      - master.*
 
 props:
   # SQL 打印开关

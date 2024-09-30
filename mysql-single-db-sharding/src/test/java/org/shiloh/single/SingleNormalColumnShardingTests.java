@@ -47,7 +47,7 @@ class SingleNormalColumnShardingTests {
      */
     @Test
     void testDeleteShardingByNormalCol() {
-        final long userId = 592913331392581L;
+        final long userId = 596150319222853L;
         final long deptId = 5L;
         this.userMapper.delete(userId, deptId);
         final User user = this.userMapper.selectByIdAndDeptId(userId, deptId);

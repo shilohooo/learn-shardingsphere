@@ -16,7 +16,14 @@ server:
   port: 8080
 spring:
   datasource:
-    # 指定使用的数据库驱动，用到分库分表时，需要将驱动指定为 ShardingSphere 的
-    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    # 走 java api 配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:13306/sharding_jdbc_single_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+
+    # 走 yaml 配置：指定使用的数据库驱动，用到分库分表时，需要将驱动指定为 ShardingSphere 的
+    # driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     # 指定使用的 Sharding Sphere 配置文件
-    url: jdbc:shardingsphere:classpath:config.yml
+    # url: jdbc:shardingsphere:classpath:config.yml

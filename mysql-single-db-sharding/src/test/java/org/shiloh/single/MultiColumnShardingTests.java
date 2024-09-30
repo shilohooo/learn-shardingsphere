@@ -4,11 +4,11 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shardingsphere.infra.hint.HintManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.shiloh.constant.DatePatternConstant;
-import org.shiloh.constant.ShardingTableName;
+import org.shiloh.common.constant.DatePatternConstant;
 import org.shiloh.entity.AttendanceRecord;
 import org.shiloh.mapper.AttendanceRecordMapper;
 import org.shiloh.sharding.AttendanceShardingModel;
+import org.shiloh.sharding.config.ShardingTableName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

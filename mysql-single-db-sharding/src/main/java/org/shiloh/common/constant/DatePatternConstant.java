@@ -1,4 +1,4 @@
-package org.shiloh.constant;
+package org.shiloh.common.constant;
 
 /**
  * 日期格式常量
