@@ -4,6 +4,8 @@
 > - [ShardingSphere 标准分片算法 - 行表达式分片算法](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/common-config/builtin-algorithm/sharding/#行表达式分片算法)
 > - [ShardingSphere 标准分片算法 - 时间范围分片算法](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/common-config/builtin-algorithm/sharding/#时间范围分片算法)
 > - [ShardingSphere 自定义类分片算法](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/common-config/builtin-algorithm/sharding/#自定义类分片算法)
+> - [ShardingSphere Yaml 配置](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/shardingsphere-jdbc/yaml-config/)
+> - [ShardingSphere Java API 配置](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/shardingsphere-jdbc/java-api/)
 
 ## 内容概览
 
@@ -18,3 +20,8 @@
 
 - [scheme.sql](./src/main/resources/sql/mysql/scheme.sql)
 - [data.sql](./src/main/resources/sql/mysql/data.sql)
+
+## 配置导航
+
+- [Yaml 配置](./src/main/resources/config.yml)
+- [Java API 配置](./src/main/java/org/shiloh/sharding/config/ShardingSphereDataSourceConfig.java)
