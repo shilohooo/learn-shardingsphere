@@ -7,7 +7,7 @@
 -->
 <mapper namespace="org.shiloh.mapper.UserMapper">
     <!--region CUD-->
-    
+
     <!--    新增优用户信息-->
     <insert id="insert" parameterType="user">
         insert into t_user(id, name, age, email, dept_id)
@@ -22,7 +22,7 @@
     </insert>
 
     <!--    修改用户信息-->
-    <update id="update">
+    <update id="update" parameterType="user">
         update t_user
         <!-- 字段不为 null 的才更新，如果是字符串类型，则还需要判断不为空字符串 -->
         <set>
@@ -41,7 +41,7 @@
     </update>
 
     <!--    删除用户信息-->
-    <delete id="delete">
+    <delete id="delete" parameterType="long">
         delete
         from t_user
         where id = #{id}

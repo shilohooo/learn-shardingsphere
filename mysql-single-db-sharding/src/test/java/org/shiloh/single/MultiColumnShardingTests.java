@@ -29,6 +29,98 @@ class MultiColumnShardingTests {
     @Autowired
     private AttendanceRecordMapper attendanceRecordMapper;
 
+    // region CUD
+
+    /**
+     * 单表多字段分片新增数据测试
+     *
+     * @author shiloh
+     * @date 2024/9/30 9:01
+     */
+    @Test
+    void testInsert() throws ParseException {
+        try (final HintManager hintManager = HintManager.getInstance()) {
+            final long deptId = 1L;
+            final Date clockInTime = DateUtils.parseDate(
+                    "2024-09-05 10:30:00", DatePatternConstant.NORM_DATETIME_PATTERN
+            );
+            hintManager.addTableShardingValue(
+                    ShardingTableName.ATTENDANCE_RECORD.getLogicTableName(),
+                    new AttendanceShardingModel(deptId, clockInTime)
+            );
+
+            final AttendanceRecord attendanceRecord = new AttendanceRecord();
+            attendanceRecord.setDeptId(deptId);
+            attendanceRecord.setUserId(1L);
+            attendanceRecord.setUsername("shiloh");
+            attendanceRecord.setClockInTime(clockInTime);
+            attendanceRecord.setRemark("test remark");
+            this.attendanceRecordMapper.insert(attendanceRecord);
+            Assertions.assertThat(attendanceRecord.getId()).isNotNull();
+        }
+    }
+
+    /**
+     * 单表多字段分片删除数据测试
+     *
+     * @author shiloh
+     * @date 2024/9/30 9:18
+     */
+    @Test
+    void testDelete() throws ParseException {
+        try (final HintManager hintManager = HintManager.getInstance()) {
+            final long deptId = 1L;
+            final Date clockInTime = DateUtils.parseDate(
+                    "2024-09-05 10:30:00", DatePatternConstant.NORM_DATETIME_PATTERN
+            );
+            hintManager.addTableShardingValue(
+                    ShardingTableName.ATTENDANCE_RECORD.getLogicTableName(),
+                    new AttendanceShardingModel(deptId, clockInTime)
+            );
+
+            final long id = 596060508258373L;
+            this.attendanceRecordMapper.delete(id, deptId, clockInTime);
+            final AttendanceRecord attendanceRecord = this.attendanceRecordMapper.selectOne(id, deptId, clockInTime);
+            Assertions.assertThat(attendanceRecord).isNull();
+        }
+    }
+
+    /**
+     * 单表多字段分片修改数据测试
+     *
+     * @author shiloh
+     * @date 2024/9/30 9:24
+     */
+    @Test
+    void testUpdate() throws ParseException {
+        try (final HintManager hintManager = HintManager.getInstance()) {
+            final long deptId = 1L;
+            final Date clockInTime = DateUtils.parseDate(
+                    "2024-09-29 10:46:41", DatePatternConstant.NORM_DATETIME_PATTERN
+            );
+            hintManager.addTableShardingValue(
+                    ShardingTableName.ATTENDANCE_RECORD.getLogicTableName(),
+                    new AttendanceShardingModel(deptId, clockInTime)
+            );
+
+            final long id = 592911230136667L;
+            AttendanceRecord attendanceRecord = this.attendanceRecordMapper.selectOne(id, deptId, clockInTime);
+            Assertions.assertThat(attendanceRecord).isNotNull();
+
+            final String remark = "updated remark";
+            attendanceRecord.setRemark(remark);
+            this.attendanceRecordMapper.update(attendanceRecord);
+
+            attendanceRecord = this.attendanceRecordMapper.selectOne(id, deptId, clockInTime);
+            Assertions.assertThat(attendanceRecord).isNotNull();
+            Assertions.assertThat(remark).isEqualTo(attendanceRecord.getRemark());
+        }
+    }
+
+    // endregion
+
+    // region R
+
     /**
      * 单表多字段分片查询测试（不跨月）
      *
@@ -94,4 +186,6 @@ class MultiColumnShardingTests {
             Assertions.assertThat(attendanceRecords).isNotEmpty();
         }
     }
+
+    // endregion
 }
