@@ -6,7 +6,6 @@ import org.apache.shardingsphere.driver.api.ShardingSphereDataSourceFactory;
 import org.apache.shardingsphere.infra.algorithm.core.config.AlgorithmConfiguration;
 import org.apache.shardingsphere.infra.config.mode.ModeConfiguration;
 import org.apache.shardingsphere.infra.config.rule.RuleConfiguration;
-import org.apache.shardingsphere.sharding.api.config.ShardingRuleConfiguration;
 import org.apache.shardingsphere.single.api.config.SingleRuleConfiguration;
 import org.shiloh.sharding.constant.ShardingSphereConstant;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -108,26 +107,6 @@ public class ShardingSphereDataSourceConfig {
      */
     private static List<RuleConfiguration> createShardingRules() {
         final List<RuleConfiguration> ruleConfigurations = new ArrayList<>(2);
-        final ShardingRuleConfiguration shardingRuleConfiguration = new ShardingRuleConfiguration();
-
-        // 添加分片表
-        Arrays.stream(ShardingTableName.values()).forEach(
-                shardingTableName -> shardingRuleConfiguration
-                        .getTables()
-                        .add(shardingTableName.getShardingTableRuleConfiguration())
-        );
-        // 添加分布式序列生成器
-        shardingRuleConfiguration.getKeyGenerators()
-                .put(ShardingSphereConstant.KEY_GENERATOR_NAME, createKeyGenerator());
-        // 添加分片算法
-        Arrays.stream(ShardingAlgorithmName.values()).forEach(
-                shardingAlgorithmName -> shardingRuleConfiguration
-                        .getShardingAlgorithms()
-                        .put(shardingAlgorithmName.getAlgorithmName(), shardingAlgorithmName.getAlgorithmConfiguration())
-        );
-
-        ruleConfigurations.add(shardingRuleConfiguration);
-
         // 未分片的表查询规则
         ruleConfigurations.add(new SingleRuleConfiguration(
                 Collections.singleton(String.format("%s.*", ShardingSphereConstant.MASTER_DATA_SOURCE_NAME)),
@@ -144,7 +123,7 @@ public class ShardingSphereDataSourceConfig {
      * @author shiloh
      * @date 2024/9/30 11:06
      */
-    private static AlgorithmConfiguration createKeyGenerator() {
+    public static AlgorithmConfiguration createKeyGenerator() {
         final Properties keyGeneratorProps = new Properties();
         keyGeneratorProps.setProperty("worker-id", "1");
         keyGeneratorProps.setProperty("datacenter-id", "1");

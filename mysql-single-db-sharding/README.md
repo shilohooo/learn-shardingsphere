@@ -9,12 +9,13 @@
 
 ## 内容概览
 
-| 示例名称        |        逻辑表名称        |                          配置                           |                                             单元测试                                             |           备注            |
-|:------------|:-------------------:|:-----------------------------------------------------:|:--------------------------------------------------------------------------------------------:|:-----------------------:|
-| 单表不分片       |       t_book        | [:white_check_mark:](./src/main/resources/config.yml) |         [:white_check_mark:](./src/test/java/org/shiloh/single/NoShardingTests.java)         |                         |
-| 按单个普通字段分片   |       t_user        | [:white_check_mark:](./src/main/resources/config.yml) | [:white_check_mark:](./src/test/java/org/shiloh/single/SingleNormalColumnShardingTests.java) |       dept_id % 2       |
-| 按单个日期字段按月分片 |       t_order       | [:white_check_mark:](./src/main/resources/config.yml) |  [:white_check_mark:](./src/test/java/org/shiloh/single/SingleDateColumnShardingTests.java)  |         yyyyMM          |
-| 按多个字段分片     | t_attendance_record | [:white_check_mark:](./src/main/resources/config.yml) |    [:white_check_mark:](./src/test/java/org/shiloh/single/MultiColumnShardingTests.java)     | dept_id_yyyyMM（多租户按月分片） |
+| 示例名称        |        逻辑表名称        |                                                   配置                                                   |                                             单元测试                                             |                    备注                     |
+|:------------|:-------------------:|:------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|:-----------------------------------------:|
+| 单表不分片       |       t_book        |                         [:white_check_mark:](./src/main/resources/config.yml)                          |         [:white_check_mark:](./src/test/java/org/shiloh/single/NoShardingTests.java)         |                                           |
+| 按单个普通字段分片   |       t_user        |                         [:white_check_mark:](./src/main/resources/config.yml)                          | [:white_check_mark:](./src/test/java/org/shiloh/single/SingleNormalColumnShardingTests.java) |                dept_id % 2                |
+| 按单个日期字段按月分片 |       t_order       |                         [:white_check_mark:](./src/main/resources/config.yml)                          |  [:white_check_mark:](./src/test/java/org/shiloh/single/SingleDateColumnShardingTests.java)  |                  yyyyMM                   |
+| 按多个字段分片     | t_attendance_record |                         [:white_check_mark:](./src/main/resources/config.yml)                          |    [:white_check_mark:](./src/test/java/org/shiloh/single/MultiColumnShardingTests.java)     |          dept_id_yyyyMM（多租户按月分片）          |
+| 动态更新分库分表规则  |                     | [:white_check_mark:](./src/main/java/org/shiloh/sharding/runner/ShardingSphereConfigUpdateRunner.java) |                                      :heavy_minus_sign:                                      | 项目启动后自动更新分库分表规则，无需写死到配置文件 / Configuration | 
 
 ## 数据库脚本
 
