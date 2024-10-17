@@ -38,6 +38,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class ShardingSphereConfigUpdateRunner implements CommandLineRunner {
+    public static final String DB_MASTER = "sharding_jdbc_single_db";
+    public static final String DB_INFORMATION_SCHEMA = "information_schema";
     public static final String SQL = "select TABLE_NAME as tableName from TABLES where TABLE_SCHEMA = 'sharding_jdbc_single_db'";
 
     private final DataSourceProperties dataSourceProperties;
@@ -47,7 +49,8 @@ public class ShardingSphereConfigUpdateRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try (
                 final Connection connection = DriverManager.getConnection(
-                        dataSourceProperties.getUrl().replace("sharding_jdbc_single_db", "information_schema"),
+                        dataSourceProperties.getUrl()
+                                .replace(DB_MASTER, DB_INFORMATION_SCHEMA),
                         dataSourceProperties.getUsername(),
                         dataSourceProperties.getPassword()
                 );
@@ -87,7 +90,9 @@ public class ShardingSphereConfigUpdateRunner implements CommandLineRunner {
         }
 
         final ShardingSphereDataSource shardingSphereDataSource = (ShardingSphereDataSource) dataSource;
-        final Field field = ReflectionUtils.findField(shardingSphereDataSource.getClass(), "contextManager", ContextManager.class);
+        final Field field = ReflectionUtils.findField(
+                shardingSphereDataSource.getClass(), "contextManager", ContextManager.class
+        );
         if (field == null) {
             return;
         }
@@ -112,11 +117,13 @@ public class ShardingSphereConfigUpdateRunner implements CommandLineRunner {
                 .put(ShardingSphereConstant.KEY_GENERATOR_NAME, ShardingSphereDataSourceConfig.createKeyGenerator());
         // 添加分片算法
         Arrays.stream(ShardingAlgorithmName.values()).forEach(
-                shardingAlgorithmName -> ruleConfiguration
+                item -> ruleConfiguration
                         .getShardingAlgorithms()
-                        .put(shardingAlgorithmName.getAlgorithmName(), shardingAlgorithmName.getAlgorithmConfiguration())
+                        .put(item.getAlgorithmName(), item.getAlgorithmConfiguration())
         );
 
-        contextManager.getConfigurationContextManager().alterRuleConfiguration(ShardingSphereConstant.LOGIC_DB_NAME, ruleConfiguration);
+        contextManager.getConfigurationContextManager().alterRuleConfiguration(
+                ShardingSphereConstant.LOGIC_DB_NAME, ruleConfiguration
+        );
     }
 }
