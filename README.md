@@ -1,5 +1,6 @@
 # Apache ShardingSphere 分库分表学习记录
 
+> [!TIP]
 > 参考资料：[Apache ShardingSphere官网](https://shardingsphere.apache.org/document/current/en/overview/)
 
 ## 开发环境
