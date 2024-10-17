@@ -1,5 +1,6 @@
 # ShardingSphere - MySQL 单库分片 DEMO
 
+> [!TIP]
 > 参考资料：
 > - [ShardingSphere 标准分片算法 - 行表达式分片算法](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/common-config/builtin-algorithm/sharding/#行表达式分片算法)
 > - [ShardingSphere 标准分片算法 - 时间范围分片算法](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/common-config/builtin-algorithm/sharding/#时间范围分片算法)
