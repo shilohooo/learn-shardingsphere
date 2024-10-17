@@ -131,17 +131,17 @@ class MultiColumnShardingTests {
     void testSelect() throws ParseException {
         try (final HintManager hintManager = HintManager.getInstance()) {
             final Date clockInStartTime = DateUtils.parseDate(
-                    "2024-09-01 00:00:00", DatePatternConstant.NORM_DATETIME_PATTERN
+                    "2024-06-01 00:00:00", DatePatternConstant.NORM_DATETIME_PATTERN
             );
             final Date clockInEndTime = DateUtils.parseDate(
-                    "2024-09-30 23:59:59", DatePatternConstant.NORM_DATETIME_PATTERN
+                    "2024-06-30 23:59:59", DatePatternConstant.NORM_DATETIME_PATTERN
             );
             final AttendanceShardingModel shardingModel = new AttendanceShardingModel(1L, clockInStartTime);
             hintManager.addTableShardingValue(ShardingTableName.ATTENDANCE_RECORD.getLogicTableName(), shardingModel);
             final List<AttendanceRecord> attendanceRecords = this.attendanceRecordMapper.selectAll(
                     1L, clockInStartTime, clockInEndTime
             );
-            Assertions.assertThat(attendanceRecords).isNotEmpty();
+            Assertions.assertThat(attendanceRecords).isEmpty();
         }
     }
 
@@ -159,14 +159,14 @@ class MultiColumnShardingTests {
     void testSelectAcrossMonth() throws ParseException {
         try (final HintManager hintManager = HintManager.getInstance()) {
             final Date clockInStartTime = DateUtils.parseDate(
-                    "2024-08-01 00:00:00", DatePatternConstant.NORM_DATETIME_PATTERN
+                    "2024-03-01 00:00:00", DatePatternConstant.NORM_DATETIME_PATTERN
             );
             hintManager.addTableShardingValue(
                     ShardingTableName.ATTENDANCE_RECORD.getLogicTableName(),
                     new AttendanceShardingModel(1L, clockInStartTime)
             );
             final Date clockInEndTime = DateUtils.parseDate(
-                    "2024-09-30 23:59:59", DatePatternConstant.NORM_DATETIME_PATTERN
+                    "2024-04-30 23:59:59", DatePatternConstant.NORM_DATETIME_PATTERN
             );
             hintManager.addTableShardingValue(
                     ShardingTableName.ATTENDANCE_RECORD.getLogicTableName(),
@@ -183,7 +183,7 @@ class MultiColumnShardingTests {
             final List<AttendanceRecord> attendanceRecords = this.attendanceRecordMapper.selectAll(
                     1L, clockInStartTime, clockInEndTime
             );
-            Assertions.assertThat(attendanceRecords).isNotEmpty();
+            Assertions.assertThat(attendanceRecords).isEmpty();
         }
     }
 

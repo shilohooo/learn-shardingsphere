@@ -5,6 +5,8 @@ import org.apache.shardingsphere.sharding.api.sharding.hint.HintShardingAlgorith
 import org.apache.shardingsphere.sharding.api.sharding.hint.HintShardingValue;
 import org.shiloh.sharding.AttendanceShardingModel;
 import org.shiloh.sharding.config.ShardingTableName;
+import org.shiloh.sharding.manager.ShardingTableManager;
+import org.shiloh.util.SpringUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -36,8 +38,9 @@ public class AttendanceHintShardingAlgorithm implements HintShardingAlgorithm<At
             Collection<String> availableTargetNames,
             HintShardingValue<AttendanceShardingModel> hintShardingValue
     ) {
+        final ShardingTableManager shardingTableManager = SpringUtils.getBean(ShardingTableManager.class);
         // 创建实际要查询的分片表
-        this.createShardingTables(hintShardingValue.getLogicTableName(), availableTargetNames);
+        shardingTableManager.createShardingTables(hintShardingValue.getLogicTableName(), availableTargetNames);
         log.info(">=============== AttendanceHintShardingAlgorithm.doSharding ===============<");
         try {
             log.info("availableTargetNames: {}", availableTargetNames);
@@ -54,56 +57,10 @@ public class AttendanceHintShardingAlgorithm implements HintShardingAlgorithm<At
                     Collections.emptySet()
             );
             // 返回之前判断是否需要创建实际的分片表
-            createShardingTables(hintShardingValue.getLogicTableName(), actualDataNodeCacheNames);
+            shardingTableManager.createShardingTables(hintShardingValue.getLogicTableName(), actualDataNodes);
             return actualDataNodes;
         } finally {
             log.info(">=============== AttendanceHintShardingAlgorithm.doSharding ===============<");
         }
-    }
-
-    /**
-     * 创建分片表，已存在的则跳过
-     *
-     * @param logicTableName       逻辑表名称
-     * @param availableTargetNames 有效的分片表名称集合
-     * @author shiloh
-     * @date 2024/10/12 17:15
-     */
-    private void createShardingTables(String logicTableName, Collection<String> availableTargetNames) {
-        final Set<String> actualDataNodeCacheNames = ShardingTableName.ACTUAL_DATA_NODES_CACHE.get(logicTableName);
-        for (final String availableTargetName : availableTargetNames) {
-            // 缓存中包含分片表名称，表示表已存在
-            if (actualDataNodeCacheNames.contains(availableTargetName)) {
-                continue;
-            }
-
-            this.createShardingTables(logicTableName, availableTargetName);
-            this.updateActualDataNodesCache(logicTableName);
-        }
-    }
-
-    /**
-     * 创建分片表
-     * <p>
-     * TODO 通过 MYSQL 的 create table new_table like old_table，创建一个与 old_table 具有相同列定义、约束和索引的新表 new_table，
-     * 但是不会复制任何数据。
-     *
-     * @param logicTableName      逻辑表名称
-     * @param availableTargetName 有效分片表名称
-     * @author shiloh
-     * @date 2024/10/12 17:15
-     */
-    private void createShardingTables(String logicTableName, String availableTargetName) {
-    }
-
-    /**
-     * TODO 更新分片表名称缓存
-     *
-     * @param logicTableName 逻辑表名称
-     * @author shiloh
-     * @date 2024/10/12 17:23
-     */
-    private void updateActualDataNodesCache(String logicTableName) {
-        // 重新在 information_schema 查一次相关的表名称
     }
 }

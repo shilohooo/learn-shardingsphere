@@ -3,6 +3,6 @@
 - [x] 单表多字段分片增删改测试
 - [x] [Java API 配置分片规则](https://shardingsphere.apache.org/document/5.5.0/cn/user-manual/shardingsphere-jdbc/java-api/)
 - [x] 项目启动后自动根据数据库表名称更新分片规则
-- [ ] 自动创建不存在的分片表
+- [x] 自动创建不存在的分片表
 - [ ] 单表+分片表关联查询测试
 - [ ] 分片表+分片表关联查询测试
